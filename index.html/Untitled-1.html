@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kütahya Yurdumspor - Resmi Bilgi Paneli</title>
+  <!-- Font Awesome İkonları -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* GENEL ARAYÜZ VE TEMA AYARLARI */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: #f1f5f9;
+      color: #1e293b;
+      padding-bottom: 40px;
+    }
+
+    /* HEADER & LOGO ALANI */
+    .navbar {
+      background-color: #1e1b4b; /* Koyu Lacivert */
+      color: #ffffff;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 15px;
+      border-bottom: 4px solid #991b1b; /* Bordo Detay */
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-logo {
+      background-color: #991b1b;
+      width: 45px;
+      height: 45px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+    }
+
+    .brand h1 {
+      font-size: 22px;
+      letter-spacing: 0.5px;
+    }
+
+    .brand p {
+      font-size: 12px;
+      color: #94a3b8;
+    }
+
+    /* ANTRENÖR BİLGİLERİ */
+    .coaches {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .coach-card {
+      background: rgba(255, 255, 255, 0.08);
+      padding: 8px 14px;
+      border-radius: 6px;
+      border-left: 3px solid #f59e0b;
+    }
+
+    .coach-card .role {
+      display: block;
+      font-size: 11px;
+      color: #cbd5e1;
+      text-transform: uppercase;
+    }
+
+    .coach-card .name {
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    /* MENÜ & NAVİGASYON */
+    .nav-bar {
+      background-color: #312e81;
+      padding: 0 30px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+
+    .nav-container {
+      display: flex;
+      overflow-x: auto;
+    }
+
+    .nav-btn {
+      background: none;
+      border: none;
+      color: #cbd5e1;
+      padding: 14px 20px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s;
+      border-bottom: 3px solid transparent;
+    }
+
+    .nav-btn:hover {
+      color: #ffffff;
+      background-color: rgba(255, 255, 255, 0.05);
+    }
+
+    .nav-btn.active {
+      color: #ffffff;
+      border-bottom-color: #ef4444;
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    /* İÇERİK KONTEYNERİ */
+    .main-container {
+      max-width: 1200px;
+      margin: 25px auto;
+      padding: 0 20px;
+    }
+
+    /* DUYURULAR */
+    .announcements {
+      margin-bottom: 25px;
+    }
+
+    .section-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: #1e1b4b;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .announcement-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 15px;
+    }
+
+    .announcement-card {
+      background: white;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      border-top: 3px solid #1e1b4b;
+    }
+
+    .announcement-card.memorial {
+      border-top: 4px solid #000000;
+      background: #fafafa;
+    }
+
+    .announcement-card h4 {
+      font-size: 15px;
+      margin: 8px 0 4px;
+    }
+
+    .announcement-card p {
+      font-size: 13px;
+      color: #64748b;
+      line-height: 1.5;
+    }
+
+    .announcement-card .date {
+      font-size: 11px;
+      color: #94a3b8;
+      float: right;
+    }
+
+    /* BADGE (ROZETLER) */
+    .badge {
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      display: inline-block;
+    }
+    .badge-black { background: #18181b; color: #ffffff; }
+    .badge-red { background: #fee2e2; color: #991b1b; }
+    .badge-gold { background: #fef3c7; color: #92400e; }
+    .badge-blue { background: #dbeafe; color: #1e40af; }
+    .badge-green { background: #dcfce7; color: #166534; }
+    .badge-num { background: #e0e7ff; color: #3730a3; font-weight: 700; }
+
+    /* SEKMELER */
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    .info-card {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    /* İSTATİSTİK KARTLARI */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+    }
+
+    .stat-card {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    .stat-card .icon {
+      font-size: 32px;
+      color: #312e81;
+    }
+
+    .stat-card h3 {
+      font-size: 22px;
+    }
+
+    .stat-card p {
+      font-size: 13px;
+      color: #64748b;
+    }
+
+    /* TABLOLAR VE OYUNCU GÖRSELLERİ */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      font-size: 14px;
+    }
+
+    th, td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #e2e8f0;
+      vertical-align: middle;
+    }
+
+    th {
+      background-color: #f8fafc;
+      color: #475569;
+      font-weight: 600;
+    }
+
+    tr:hover {
+      background-color: #f8fafc;
+    }
+
+    .player-img {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #e2e8f0;
+      background-color: #e2e8f0;
+    }
+
+    /* OYUNCU KARTLARI GRID */
+    .player-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .player-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 15px;
+      text-align: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+      transition: transform 0.2s;
+      position: relative;
+    }
+
+    .player-card:hover {
+      transform: translateY(-3px);
+    }
+
+    .player-card-img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin: 0 auto 10px auto;
+      border: 3px solid #312e81;
+      background-color: #e2e8f0;
+    }
+
+    .player-card h4 {
+      font-size: 16px;
+      color: #1e1b4b;
+      margin-bottom: 4px;
+    }
+
+    .player-card p {
+      font-size: 13px;
+      color: #64748b;
+      margin-bottom: 8px;
+    }
+
+    /* ARAMA KUTUSU */
+    .search-input {
+      padding: 8px 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      outline: none;
+      font-size: 13px;
+      width: 200px;
+    }
+
+    .search-input:focus {
+      border-color: #312e81;
+    }
+
+    /* DEPLASMAN KARTLARI */
+    .dep-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 15px;
+      margin-top: 15px;
+    }
+
+    .dep-card {
+      border: 1px solid #e2e8f0;
+      padding: 15px;
+      border-radius: 6px;
+      background-color: #fafafa;
+    }
+
+    .dep-card h4 {
+      color: #1e1b4b;
+      margin-bottom: 10px;
+    }
+
+    .dep-card p {
+      font-size: 13px;
+      color: #475569;
+      margin: 5px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="navbar">
+    <div class="brand">
+      <div class="brand-logo">
+        <i class="takım.jpg"></i>
+      </div>
+      <div>
+        <h1>Kütahya Yurdumspor Kulübü</h1>
+        <p>Resmi Bilgi Paneli</p>
+      </div>
+    </div>
+
+    <!-- Antrenör Bilgileri -->
+    <div class="coaches">
+      <div class="coach-card">
+        <span class="role">Baş Antrenör</span>
+        <span class="name">Alaattin Demirel</span>
+      </div>
+      <div class="coach-card">
+        <span class="role">Yardımcı Antrenör</span>
+        <span class="name">Şevket</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- NAVİGASYON MENÜSÜ -->
+  <nav class="nav-bar">
+    <div class="nav-container">
+      <button class="nav-btn active" onclick="switchTab('genel-bakis', this)">
+        <i class="fa-solid fa-chart-line"></i> Genel Bakış
+      </button>
+      <button class="nav-btn" onclick="switchTab('kazandigi-maclar', this)">
+        <i class="fa-solid fa-trophy"></i> Maç Sonuçları
+      </button>
+      <button class="nav-btn" onclick="switchTab('deplasman', this)">
+        <i class="fa-solid fa-plane"></i> Deplasman Bilgileri
+      </button>
+      <button class="nav-btn" onclick="switchTab('full-oyuncular', this)">
+        <i class="fa-solid fa-users"></i> Full Oyuncu Bilgileri
+      </button>
+      <button class="nav-btn" onclick="switchTab('guncel-oyuncular', this)">
+        <i class="fa-solid fa-user-check"></i> Güncel Oyuncu Bilgileri
+      </button>
+    </div>
+  </nav>
+
+  <!-- ANA İÇERİK ALANI -->
+  <main class="main-container">
+
+    <!-- DUYURULAR BÖLÜMÜ -->
+    <section class="announcements">
+      <div class="section-title">
+        <i class="fa-solid fa-bullhorn"></i> Duyurular & Kulüp Haberleri
+      </div>
+      <div class="announcement-grid">
+        <!-- VEFAT DUYURUSU -->
+        <div class="announcement-card memorial">
+          <span class="badge badge-black"><i class="fa-solid fa-ribbon"></i> Başımız Sağ Olsun</span>
+          <span class="date">Anı Sayfası</span>
+          <h4>Kaptanımız Alihan Yenikaya'yı Unutmayacağız</h4>
+          <p>Bu sezon takım kaptanımız Alihan Yenikaya'yı kaybetmenin derin üzüntüsünü yaşıyoruz. Kaptanımıza Allah'tan rahmet, kederli ailesine ve camiamıza başsağlığı dileriz. Kalbimizdesin Kaptan!</p>
+        </div>
+
+        <div class="announcement-card">
+          <span class="badge badge-green">Sezon Başarısı</span>
+          <span class="date">Bölgesel Lig</span>
+          <h4>Bölgesel Lig Mücadelesi Tamamlandı</h4>
+          <p>Takımımız Bölgesel Lig'de çıktığı 3 maçta 1 galibiyet elde ederek sezonu başarıyla tamamlamıştır.</p>
+        </div>
+
+        <div class="announcement-card">
+          <span class="badge badge-gold">Hazırlık Maçları</span>
+          <span class="date">1. Sezon</span>
+          <h4>KVK ve Emet Hazırlık Maçları</h4>
+          <p>Sezon öncesi 2 KVK ve 2 Emet olmak üzere toplam 4 hazırlık maçıyla takımımız form tuttu.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SEKMELER (TAB CONTENT) -->
+
+    <!-- 1. GENEL BAKIŞ -->
+    <div id="genel-bakis" class="tab-content active">
+      <div class="stats-grid">
+        <div class="stat-card">
+          <i class="fa-solid fa-volleyball icon"></i>
+          <div>
+            <h3>3</h3>
+            <p>Bölgesel Lig Maçı</p>
+          </div>
+        </div>
+        <div class="stat-card">
+          <i class="fa-solid fa-circle-check icon" style="color: #10b981;"></i>
+          <div>
+            <h3>1</h3>
+            <p>Galibiyet (3-0)</p>
+          </div>
+        </div>
+        <div class="stat-card">
+          <i class="fa-solid fa-circle-xmark icon" style="color: #ef4444;"></i>
+          <div>
+            <h3>2</h3>
+            <p>Mağlubiyet (0-3)</p>
+          </div>
+        </div>
+        <div class="stat-card">
+          <i class="fa-solid fa-dumbbell icon" style="color: #f59e0b;"></i>
+          <div>
+            <h3>4</h3>
+            <p>Hazırlık Maçı</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-card" style="margin-top: 20px;">
+        <h3><i class="fa-solid fa-star"></i> 1. Sezon & Bölgesel Lig Özeti</h3>
+        <p style="color: #64748b; margin-top: 8px; line-height: 1.6;">
+          Baş antrenörümüz Alaattin Demirel ve yardımcı antrenörümüz Şevket yönetimindeki Kütahya Yurdumspor Kulübü, 1. sezonunda toplam 4 hazırlık karşılaşması (2 KVK ve 2 Emet maçı) oynamıştır. Takımımız ilk sezon Bölgesel Lig oyunlarında çıktığı 3 resmi maçta 1 galibiyet (Afyonkarahisar Spor Kulübü 3-0) elde etmiştir.
+        </p>
+      </div>
+    </div>
+
+    <!-- 2. MAÇ SONUÇLARI -->
+    <div id="kazandigi-maclar" class="tab-content">
+      <div class="info-card">
+        <h3><i class="fa-solid fa-trophy" style="color: #fbbf24;"></i> Bölgesel Lig Maç Sonuçları</h3>
+        <div style="overflow-x: auto; margin-top: 15px;">
+          <table>
+            <thead>
+              <tr>
+                <th>Kategori</th>
+                <th>Karşılaşma</th>
+                <th>Skor</th>
+                <th>Sonuç</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Bölgesel Lig</td>
+                <td>Afyonkarahisar Spor Kulübü - Kütahya Yurdumspor Kulübü</td>
+                <td><span class="badge badge-green">0 - 3</span></td>
+                <td><strong style="color: #166534;">Galibiyet</strong></td>
+              </tr>
+              <tr>
+                <td>Bölgesel Lig</td>
+                <td>Balıkesir Kepsut - Kütahya Yurdumspor</td>
+                <td><span class="badge badge-red">3 - 0</span></td>
+                <td><strong style="color: #991b1b;">Mağlubiyet</strong></td>
+              </tr>
+              <tr>
+                <td>Bölgesel Lig</td>
+                <td>Kütahya Voleybol Spor Kulübü - Kütahya Yurdumspor</td>
+                <td><span class="badge badge-red">3 - 0</span></td>
+                <td><strong style="color: #991b1b;">Mağlubiyet</strong></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="info-card" style="margin-top: 20px;">
+        <h3><i class="fa-solid fa-dumbbell"></i> 1. Sezon Hazırlık Maçları</h3>
+        <div style="overflow-x: auto; margin-top: 15px;">
+          <table>
+            <thead>
+              <tr>
+                <th>Sezon</th>
+                <th>Maç Türü</th>
+                <th>Rakip</th>
+                <th>Açıklama</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1. Sezon</td>
+                <td>Hazırlık Maçı</td>
+                <td>KVK Spor (1. Maç)</td>
+                <td>Oynandı</td>
+              </tr>
+              <tr>
+                <td>1. Sezon</td>
+                <td>Hazırlık Maçı</td>
+                <td>KVK Spor (2. Maç)</td>
+                <td>Oynandı</td>
+              </tr>
+              <tr>
+                <td>1. Sezon</td>
+                <td>Hazırlık Maçı</td>
+                <td>Emet Spor (1. Maç)</td>
+                <td>Oynandı</td>
+              </tr>
+              <tr>
+                <td>1. Sezon</td>
+                <td>Hazırlık Maçı</td>
+                <td>Emet Spor (2. Maç)</td>
+                <td>Oynandı</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. DEPLASMAN BİLGİLERİ -->
+    <div id="deplasman" class="tab-content">
+      <div class="info-card">
+        <h3><i class="fa-solid fa-plane-departure"></i> Oynanan Deplasman / Bölgesel Lig Şehirleri</h3>
+        <div class="dep-grid">
+          <div class="dep-card">
+            <h4>Balıkesir Deplasmanı</h4>
+            <p><i class="fa-solid fa-volleyball"></i> Rakip: Balıkesir Kepsut</p>
+            <p><i class="fa-solid fa-square-poll-vertical"></i> Skor: 3 - 0</p>
+          </div>
+          <div class="dep-card">
+            <h4>Afyonkarahisar Deplasmanı</h4>
+            <p><i class="fa-solid fa-volleyball"></i> Rakip: Afyonkarahisar Spor Kulübü</p>
+            <p><i class="fa-solid fa-square-poll-vertical"></i> Skor: 0 - 3 (Galibiyet)</p>
+          </div>
+          <div class="dep-card">
+            <h4>Kütahya Yerel / Derbi</h4>
+            <p><i class="fa-solid fa-volleyball"></i> Rakip: Kütahya Voleybol Spor Kulübü</p>
+            <p><i class="fa-solid fa-square-poll-vertical"></i> Skor: 3 - 0</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. FULL OYUNCU BİLGİLERİ -->
+    <div id="full-oyuncular" class="tab-content">
+      <div class="info-card">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 15px;">
+          <h3><i class="fa-solid fa-users"></i> Tüm Oyuncu Kadrosu & Durumları</h3>
+          <input type="text" class="search-input" id="fullSearch" onkeyup="filterPlayers('fullSearch', 'fullPlayerTable')" placeholder="Oyuncu Ara...">
+        </div>
+        <div style="overflow-x: auto;">
+          <table id="fullPlayerTable">
+            <thead>
+              <tr>
+                <th>No</th>
+                <th>Fotoğraf</th>
+                <th>Ad Soyad</th>
+                <th>Mevki / Görev</th>
+                <th>Durum</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="badge badge-num">#9</span></td>
+                <td><img src="https://via.placeholder.com/150" alt="Alihan Yenikaya" class="player-img"></td>
+                <td><strong>Alihan Yenikaya</strong></td>
+                <td>Pasör Çaprazı</td>
+                <td><span class="badge badge-gold"><i class="fa-solid fa-crown"></i> Takım Kaptanı</span></td>
+              </tr>
+              <tr>
+                <td><span class="badge badge-num">#15</span></td>
+                <td><img src="ulu.jpg.jpg" alt="Enes Talha" class="player-img"></td>
+                <td>Enes Talha Ulubektaş</td>ia.placeholder.com/150
+                <td>Orta Oyuncu</td>
+                <td><span class="badge badge-green">Aktif</span></td>
+              </tr>
+              <tr>
+                <td><span class="badge badge-num">#10</span></td>
+                <td><img src="https://via.placeholder.com/150" alt="Arda Bilik" class="player-img"></td>
+                <td>Arda Bilik</td>
+                <td>Orta Oyuncu</td>
+                <td><span class="badge badge-red">Pasif</span></td>
+              </tr>
+              <tr>
+                <td><span class="badge badge-num">#3</span></td>
+                <td><img src="https://via.placeholder.com/150" alt="Eymen Umut" class="player-img"></td>
+                <td>Eymen Umut</td>
+                <td>Orta Oyuncu</td>
+                <td><span class="badge badge-green">Aktif</span></td>
+              </tr>
+              <tr>
+                <td><span class="badge badge-num">#1</span></td>
+                <td><img src="ibrahim.jpg.jpg" alt="İbrahim Şengül" class="player-img"></td>
+                <td>İbrahim Şengül</td>
+                <td>Libero</td>
+                <td><span class="badge badge-green">Aktif</span></td>
+              </tr>
+              <tr>
+                <td><span class="badge badge-num">-</span></td>
+                <td><img src="https://via.placeholder.com/150" alt="Emir" class="player-img"></td>
+                <td>Emir</td>
+                <td>Libero</td>
+                <td><span class="badge badge-green">Aktif</span></td>
+              </tr>
+              <tr>
+                <td><span class="badge badge-num">#6</span></td>
+                <td><img src="taha.jpg.jpg" alt="Taha Yasin" class="player-img"></td>
+                <td>Taha Yasin</td>
+                <td>Smaçör</td>
+                <td><span class="badge badge-red">Pasif</span></td>
+              </tr>
+              <tr>
+                <td><span class="badge badge-num">-</span></td>
+                <td><img src="https://via.placeholder.com/150" alt="Kaan Bayram" class="player-img"></td>
+                <td>Kaan Bayram</td>
+                <td>Smaçör</td>
+                <td><span class="badge badge-green">Aktif</span></td>
+              </tr>
+              <tr>
+                <td><span class="badge badge-num">#4</span></td>
+                <td><img src="https://via.placeholder.com/150" alt="Selman" class="player-img"></td>
+                <td>Selman</td>
+                <td>Smaçör</td>
+                <td><span class="badge badge-green">Aktif</span></td>
+              </tr>
+              <tr>
+                <td><span class="badge badge-num">-</span></td>
+                <td><img src="https://via.placeholder.com/150" alt="Serhat" class="player-img"></td>
+                <td>Serhat</td>
+                <td>Smaçör</td>
+                <td><span class="badge badge-green">Aktif</span></td>
+              </tr>
+              <tr>
+                <td><span class="badge badge-num">#12</span></td>
+                <td><img src="https://via.placeholder.com/150" alt="Süleyman Emirhan Çelik" class="player-img"></td>
+                <td>Süleyman Emirhan Çelik</td>
+                <td>Pasör / Smaçör</td>
+                <td><span class="badge badge-red">Pasif</span></td>
+              </tr>
+              <tr>
+                <td><span class="badge badge-num">#17</span></td>
+                <td><img src="https://via.placeholder.com/150" alt="Kerem" class="player-img"></td>
+                <td>Kerem</td>
+                <td>Pasör</td>
+                <td><span class="badge badge-red">Pasif</span></td>
+              </tr>
+              <tr>
+                <td><span class="badge badge-num">#1</span></td>
+                <td><img src="https://via.placeholder.com/150" alt="Fatih Kaan" class="player-img"></td>
+                <td>Fatih Kaan</td>
+                <td>Smaçör</td>
+                <td><span class="badge badge-red">Pasif</span></td>
+              </tr>
+              <tr>
+                <td><span class="badge badge-num">#14</span></td>
+                <td><img src="https://via.placeholder.com/150" alt="Sait Öter" class="player-img"></td>
+                <td>Sait Öter</td>
+                <td>Pasör Çaprazı</td>
+                <td><span class="badge badge-red">Pasif</span></td>
+              </tr>
+              <tr>
+                <td><span class="badge badge-num">#11</span></td>
+                <td><img src="https://via.placeholder.com/150" alt="Ahmet Malak" class="player-img"></td>
+                <td>Ahmet Malak</td>
+                <td>Smaçör</td>
+                <td><span class="badge badge-red">Pasif</span></td>
+              </tr>
+              <tr>
+                <td><span class="badge badge-num">#15</span></td>
+                <td><img src="ismail.jpg.jpg" alt="İsmail Furkan" class="player-img"></td>
+                <td>İsmail Furkan</td>
+                <td>Smaçör</td>
+                <td><span class="badge badge-red">Pasif</span></td>
+              </tr>
+              <tr>
+                <td><span class="badge badge-num">#7</span></td>
+                <td><img src="arda.jpg.jpg" alt="Arda Yılmaz" class="player-img"></td>
+                <td>Arda Yılmaz</td>
+                <td>Pasör / Smaçör</td>
+                <td><span class="badge badge-red">Pasif</span></td>
+              </tr>
+              <tr>
+                <td><span class="badge badge-num">#10</span></td>
+                <td><img src="https://via.placeholder.com/150" alt="Melih Planalı" class="player-img"></td>
+                <td>Melih Planalı</td>
+                <td>Orta Oyuncu</td>
+                <td><span class="badge badge-red">Pasif</span></td>
+              </tr>
+              <tr>
+                <td><span class="badge badge-num">-</span></td>
+                <td><img src="https://via.placeholder.com/150" alt="Gökhay" class="player-img"></td>
+                <td>Gökay</td>
+                <td>Pasör</td>
+                <td><span class="badge badge-green">Aktif</span></td>
+              </tr>
+              <tr>
+                <td><span class="badge badge-num">-</span></td>
+                <td><img src="https://via.placeholder.com/150" alt="Abdullah" class="player-img"></td>
+                <td>Abdullah</td>
+                <td>Smaçör</td>
+                <td><span class="badge badge-green">Aktif</span></td>
+              </tr>
+              <tr>
+                <td><span class="badge badge-num">-</span></td>
+                <td><img src="https://via.placeholder.com/150" alt="Alperen" class="player-img"></td>
+                <td>Alperen</td>
+                <td>Smaçör</td>
+                <td><span class="badge badge-green">Aktif</span></td>
+              </tr>
+              <tr>
+                <td><span class="badge badge-num">-</span></td>
+                <td><img src="https://via.placeholder.com/150" alt="Utku" class="player-img"></td>
+                <td>Utku</td>
+                <td>Smaçör</td>
+                <td><span class="badge badge-green">Aktif</span></td>
+              </tr>
+              <tr>
+                <td><span class="badge badge-num">-</span></td>
+                <td><img src="https://via.placeholder.com/150" alt="Kerem" class="player-img"></td>
+                <td>Kerem</td>
+                <td>Smaçör</td>
+                <td><span class="badge badge-green">Aktif</span></td>
+              </tr>
+              <tr>
+                <td><span class="badge badge-num">#3</span></td>
+                <td><img src="https://via.placeholder.com/150" alt="Naci" class="player-img"></td>
+                <td>Naci</td>
+                <td>Pasör</td>
+                <td><span class="badge badge-red">Pasif</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. GÜNCEL OYUNCU BİLGİLERİ (Sadece Aktif / Hazır Oyuncular) -->
+    <div id="guncel-oyuncular" class="tab-content">
+      <div class="info-card">
+        <h3><i class="fa-solid fa-id-card"></i> Güncel Aktif Oyuncu Kartları</h3>
+        <p style="color: #64748b; font-size: 14px; margin-bottom: 15px;">Aktif kadroda yer alan oyuncuların profil kartları</p>
+
+        <div class="player-cards-grid">
+          <div class="player-card">
+            <img src="https://via.placeholder.com/150" alt="Alihan Yenikaya" class="player-card-img">
+            <h4>Alihan Yenikaya <span class="badge badge-num">#9</span></h4>
+            <p>Pasör Çaprazı</p>
+            <span class="badge badge-gold"><i class="fa-solid fa-crown"></i> Kaptan</span>
+          </div>
+
+          <div class="player-card">
+            <img src="ulubektaş.jpg" alt="Enes Talha Ulubektaş" class="player-card-img">
+            <h4>Enes Talha Ulubektaş <span class="badge badge-num">#15</span></h4>
+            <p>Orta Oyuncu</p>
+            <span class="badge badge-green">Hazır</span>
+          </div>
+
+          <div class="player-card">
+            <img src="https://via.placeholder.com/150" alt="Eymen Umut" class="player-card-img">
+            <h4>Eymen Umut <span class="badge badge-num">#3</span></h4>
+            <p>Orta Oyuncu</p>
+            <span class="badge badge-green">Hazır</span>
+          </div>
+
+          <div class="player-card">
+            <img src="ibrahim.jpg.jpg" alt="İbrahim Şengül" class="player-card-img">
+            <h4>İbrahim Şengül <span class="badge badge-num">#1</span></h4>
+            <p>Libero</p>
+            <span class="badge badge-green">Hazır</span>
+          </div>
+
+          <div class="player-card">
+            <img src="https://via.placeholder.com/150" alt="Emir" class="player-card-img">
+            <h4>Emir</h4>
+            <p>Libero</p>
+            <span class="badge badge-green">Hazır</span>
+          </div>
+
+          <div class="player-card">
+            <img src="https://via.placeholder.com/150" alt="Kaan Bayram" class="player-card-img">
+            <h4>Kaan Bayram</h4>
+            <p>Smaçör</p>
+            <span class="badge badge-green">Hazır</span>
+          </div>
+
+          <div class="player-card">
+            <img src="https://via.placeholder.com/150" alt="Selman" class="player-card-img">
+            <h4>Selman <span class="badge badge-num">#4</span></h4>
+            <p>Smaçör</p>
+            <span class="badge badge-green">Hazır</span>
+          </div>
+
+          <div class="player-card">
+            <img src="https://via.placeholder.com/150" alt="Serhat" class="player-card-img">
+            <h4>Serhat</h4>
+            <p>Smaçör</p>
+            <span class="badge badge-green">Hazır</span>
+          </div>
+
+          <div class="player-card">
+            <img src="https://via.placeholder.com/150" alt="Gökhay" class="player-card-img">
+            <h4>Gökay</h4>
+            <p>Pasör</p>
+            <span class="badge badge-green">Hazır</span>
+          </div>
+
+          <div class="player-card">
+            <img src="https://via.placeholder.com/150" alt="Abdullah" class="player-card-img">
+            <h4>Abdullah</h4>
+            <p>Smaçör</p>
+            <span class="badge badge-green">Hazır</span>
+          </div>
+
+          <div class="player-card">
+            <img src="https://via.placeholder.com/150" alt="Alperen" class="player-card-img">
+            <h4>Alperen</h4>
+            <p>Smaçör</p>
+            <span class="badge badge-green">Hazır</span>
+          </div>
+
+          <div class="player-card">
+            <img src="https://via.placeholder.com/150" alt="Utku" class="player-card-img">
+            <h4>Utku</h4>
+            <p>Smaçör</p>
+            <span class="badge badge-green">Hazır</span>
+          </div>
+
+          <div class="player-card">
+            <img src="https://via.placeholder.com/150" alt="Kerem" class="player-card-img">
+            <h4>Kerem</h4>
+            <p>Smaçör</p>
+            <span class="badge badge-green">Hazır</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <script>
+    // SEKME DEĞİŞTİRME FONKSİYONU
+    function switchTab(tabId, element) {
+      const contents = document.querySelectorAll('.tab-content');
+      contents.forEach(content => {
+        content.classList.remove('active');
+      });
+
+      const buttons = document.querySelectorAll('.nav-btn');
+      buttons.forEach(btn => {
+        btn.classList.remove('active');
+      });
+
+      const activeTab = document.getElementById(tabId);
+      if (activeTab) {
+        activeTab.classList.add('active');
+      }
+
+      if (element) {
+        element.classList.add('active');
+      }
+    }
+
+    // OYUNCU TABLOSU CANLI FİLTRELEME / ARAMA
+    function filterPlayers(inputId, tableId) {
+      const input = document.getElementById(inputId);
+      const filter = input.value.toLowerCase();
+      const table = document.getElementById(tableId);
+      const tr = table.getElementsByTagName("tr");
+
+      for (let i = 1; i < tr.length; i++) {
+        let show = false;
+        const td = tr[i].getElementsByTagName("td");
+        
+        for (let j = 0; j < td.length; j++) {
+          if (td[j]) {
+            if (td[j].innerHTML.toLowerCase().indexOf(filter) > -1) {
+              show = true;
+              break;
+            }
+          }
+        }
+        tr[i].style.display = show ? "" : "none";
+      }
+    }
+  </script>
+</body>
+</html>
